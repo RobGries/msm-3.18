@@ -137,7 +137,7 @@
 };
 
 &mdss_dsi0 {
-	qcom,dsi-pref-prim-pan = <&dsi_truly_1080_vid>;
+	qcom,dsi-pref-prim-pan = <&dsi_yss99216oi050hd_720p_video>;
 //	pinctrl-names = "mdss_default", "mdss_sleep";
 //	pinctrl-0 = <&mdss_dsi_active &mdss_te_active>;
 //	pinctrl-1 = <&mdss_dsi_suspend &mdss_te_suspend>;
@@ -164,6 +164,15 @@
 	qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
 	qcom,mdss-dsi-pan-enable-dynamic-fps;
 	qcom,mdss-dsi-pan-fps-update = "dfps_immediate_clk_mode";
+};
+
+&dsi_yss99216oi050hd_720p_video {
+    qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
+/*    qcom,mdss-dsi-pan-enable-dynamic-fps;
+    qcom,mdss-dsi-pan-fps-update = "dfps_immediate_clk_mode";     */
+    qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_wled";
+    qcom,mdss-dsi-bl-min-level = <1>;
+    qcom,mdss-dsi-bl-max-level = <4095>;
 };
 
 &dsi_truly_1080_cmd {

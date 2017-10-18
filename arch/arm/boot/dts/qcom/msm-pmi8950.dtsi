@@ -152,7 +152,11 @@
 			gpio@c000 {
 				reg = <0xc000 0x100>;
 				qcom,pin-num = <1>;
-				status = "disabled";
+				status = "okay";
+				qcom,mode = <1>;
+				qcom,invert = <1>;
+				qcom,src-sel = <2>;
+				qcom,master-en = <1>;
 			};
 
 			gpio@c100 {
@@ -529,7 +533,7 @@
 			qcom,hyb-thres = <625>;
 			qcom,sync-dly-us = <800>;
 			qcom,fs-curr-ua = <20000>;
-			qcom,led-strings-list = [00 01];
+			qcom,led-strings-list = [00 01 02];
 			qcom,en-ext-pfet-sc-pro;
 			qcom,cons-sync-write-delay-us = <1000>;
 		};

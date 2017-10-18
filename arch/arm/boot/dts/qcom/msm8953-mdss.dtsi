@@ -302,7 +302,7 @@
 
 			qcom,timing-db-mode;
 			qcom,mdss-mdp = <&mdss_mdp>;
-			vdd-supply = <&pm8953_l17>;
+			vdd-supply = <&pm8953_l10>;
 			vddio-supply = <&pm8953_l6>;
 
 			clocks = <&clock_gcc_mdss clk_gcc_mdss_byte0_clk>,
@@ -349,7 +349,7 @@
 			reg-names = "dsi_ctrl", "dsi_phy", "mmss_misc_phys";
 
 			qcom,mdss-mdp = <&mdss_mdp>;
-			vdd-supply = <&pm8953_l17>;
+			vdd-supply = <&pm8953_l10>;
 			vddio-supply = <&pm8953_l6>;
 
 			clocks = <&clock_gcc_mdss clk_gcc_mdss_byte1_clk>,
