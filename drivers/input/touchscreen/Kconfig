@@ -1135,6 +1135,16 @@ config TOUCHSCREEN_MAXIM_STI
 	  To compile this driver as a module, choose M here: the
 	  module will be called maxim_sti.
 
+config TOUCHSCREEN_HIMAX_CHIPSET
+	bool  "Himax touchpanel CHIPSET"
+	depends on I2C
+	help
+	  Say Y here if you have a HIMAX touchscreen.
+
+	  If unsure, say N
+
+source "drivers/input/touchscreen/hxchipset/Kconfig"
+
 source "drivers/input/touchscreen/gt9xx/Kconfig"
 
 endif
