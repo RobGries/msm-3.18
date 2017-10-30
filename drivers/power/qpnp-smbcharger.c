@@ -8134,6 +8134,12 @@ static int smbchg_request_irqs(struct smbchg_chip *chip)
 				usbid_change_handler,
 				(IRQF_TRIGGER_FALLING | IRQF_ONESHOT),
 				rc);
+			if(is_otg_present(chip))
+			{
+				if(chip->usb_psy)
+					power_supply_set_usb_otg(chip->usb_psy, 1);
+			}
+
 			REQUEST_IRQ(chip, spmi_resource,
 				chip->otg_oc_irq, "otg-oc",
 				otg_oc_handler,
