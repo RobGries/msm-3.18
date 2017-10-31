@@ -7608,7 +7608,7 @@ static int smbchg_hw_init(struct smbchg_chip *chip)
 		/* configure OTG enable to pin control active low */
 		rc = smbchg_sec_masked_write(chip, chip->otg_base + OTG_CFG,
 				OTG_PIN_POLARITY_BIT | OTG_EN_CTRL_MASK,
-				OTG_PIN_ACTIVE_LOW | OTG_PIN_CTRL_RID_DIS);
+				OTG_PIN_ACTIVE_LOW | OTG_CMD_CTRL_RID_EN);
 		if (rc < 0) {
 			dev_err(chip->dev, "Couldn't set OTG EN config rc = %d\n",
 				rc);
