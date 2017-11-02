@@ -12,23 +12,60 @@
  */
 
 &int_codec {
-	status = "okay";
+	status = "disabled";
 	qcom,model = "msm8953-snd-card-mtp";
 	qcom,msm-hs-micbias-type = "internal";
 };
 
 &pm8953_diangu_dig {
-	status = "okay";
+	status = "disabled";
 };
 
 &pm8953_diangu_analog {
-	status = "okay";
+	status = "disabled";
+};
+
+&wsa881x_i2c_e {
+	status = "disabled";
+};
+
+&wsa881x_i2c_44 {
+	status = "disabled";
 };
 
 &wsa881x_i2c_f {
-	status = "okay";
+	status = "disabled";
 };
 
 &wsa881x_i2c_45 {
+	status = "disabled";
+};
+
+&ext_codec {
 	status = "okay";
 };
+
+&slim_msm {
+        status = "okay";
+};
+
+&dai_slim {
+        status = "okay";
+};
+
+&wcd9xxx_intc {
+        status = "okay";
+};
+
+&clock_audio {
+        status = "okay";
+};
+
+&wcd9335 {
+        status = "okay";
+};
+
+&wcd_rst_gpio {
+    status = "okay";
+};
+

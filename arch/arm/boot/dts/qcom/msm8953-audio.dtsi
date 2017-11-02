@@ -241,7 +241,7 @@
 	clocks = <&clock_audio clk_audio_pmi_clk>,
 		<&clock_audio clk_audio_ap_clk2>;
 
-	qcom,cdc-reset-gpio = <&tlmm 67 0>;
+	qcom,cdc-reset-gpio = <&tlmm 41 0>;
 
 	cdc-vdd-buck-supply = <&eldo2_8953>;
 	qcom,cdc-vdd-buck-voltage = <1800000 1800000>;

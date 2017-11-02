@@ -27,7 +27,7 @@
 			wsa881x_212: wsa881x@20170212 {
 				compatible = "qcom,wsa881x";
 				reg = <0x00 0x20170212>;
-				qcom,spkr-sd-n-gpio = <&tlmm 96 0>;
+				qcom,spkr-sd-n-gpio = <&tlmm 97 0>;
 			};
 
 			wsa881x_213: wsa881x@21170213 {
@@ -39,7 +39,7 @@
 			wsa881x_214: wsa881x@21170214 {
 				compatible = "qcom,wsa881x";
 				reg = <0x00 0x21170214>;
-				qcom,spkr-sd-n-gpio = <&tlmm 96 0>;
+				qcom,spkr-sd-n-gpio = <&tlmm 97 0>;
 			};
 		};
 	};
