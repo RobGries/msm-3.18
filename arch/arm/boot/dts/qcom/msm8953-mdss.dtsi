@@ -197,12 +197,12 @@
 			};
 		};
 
-		mdss_fb1: qcom,mdss_fb_wfd {
+		mdss_fb1: qcom,mdss_fb_secondary {
 			cell-index = <1>;
 			compatible = "qcom,mdss-fb";
 		};
 
-		mdss_fb2: qcom,mdss_fb_secondary {
+		mdss_fb2: qcom,mdss_fb_wfd {
 			cell-index = <2>;
 			compatible = "qcom,mdss-fb";
 		};
@@ -210,7 +210,7 @@
 
 	mdss_dsi: qcom,mdss_dsi@0 {
 		compatible = "qcom,mdss-dsi";
-		hw-config = "single_dsi";
+		hw-config = "dual_dsi";  /*pll-src-config*/
 		#address-cells = <1>;
 		#size-cells = <1>;
 		gdsc-supply = <&gdsc_mdss>;
@@ -247,7 +247,7 @@
 		qcom,mmss-phyreset-ctrl-offset = <0x24>;
 
 		qcom,mdss-fb-map-prim = <&mdss_fb0>;
-		qcom,mdss-fb-map-sec = <&mdss_fb2>;
+		qcom,mdss-fb-map-sec = <&mdss_fb1>;
 
 		qcom,core-supply-entries {
 			#address-cells = <1>;
@@ -392,7 +392,7 @@
 		compatible = "qcom,mdss_wb";
 		qcom,mdss_pan_res = <640 640>;
 		qcom,mdss_pan_bpp = <24>;
-		qcom,mdss-fb-map = <&mdss_fb1>;
+		qcom,mdss-fb-map = <&mdss_fb2>;
 	};
 
 	mdss_rotator: qcom,mdss_rotator {

@@ -812,6 +812,7 @@
 
 		/* DSI_TO_HDMI I2C configuration */
 		adv7533@39 {
+			status = "disabled";
 			compatible = "adv7533";
 			reg = <0x39>;
 			instance_id = <0>;
@@ -925,6 +926,12 @@
 		dmas = <&dma_blsp2 6 64 0x20000020 0x20>,
 			<&dma_blsp2 7 32 0x20000020 0x20>;
 		dma-names = "tx", "rx";
+
+		lt8912@48 {
+		    compatible = "lontium,lt8912";
+		    reg = <0x48>;
+		    qcom,hdmi-reset = <&tlmm 64 0x0>;
+		};
 	};
 
 	slim_msm: slim@c140000{
