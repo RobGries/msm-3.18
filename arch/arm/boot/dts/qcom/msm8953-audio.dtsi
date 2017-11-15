@@ -151,8 +151,8 @@
 
 &wcd9xxx_intc {
 	interrupt-parent = <&tlmm>;
-	interrupts = <73 0>;
-	qcom,gpio-connect = <&tlmm 73 0>;
+	interrupts = <35 0>;
+	qcom,gpio-connect = <&tlmm 35 0>;
 };
 
 &clock_audio {
