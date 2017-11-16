@@ -22,3 +22,12 @@ config MSM_DBA_ADV7533
 	  Support for ADV7533 DSI to HDMI display bridge driver. The driver
 	  controls the ADV7533 HW through the I2C interface and configures
 	  the DSI input and HDMI output video format.
+
+config MSM_DBA_LT8912
+	bool "lt8912 driver support through MSM DBA interface"
+	depends on MSM_DBA
+	default n
+	---help---
+	  Support for lt8912 DSI to HDMI display bridge driver. The driver
+	  controls the lt8912 HW through the I2C interface and configures
+	  the DSI input and HDMI output video format.

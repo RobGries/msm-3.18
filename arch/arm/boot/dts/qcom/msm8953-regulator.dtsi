@@ -927,4 +927,43 @@
 		enable-active-high;
 		gpio = <&pm8953_gpios 5 0>;
 	};
+
+	vreg_1v8: vreg_1v8 {
+		compatible = "regulator-fixed";
+		regulator-name = "vreg_1v8";
+		enable-active-high;
+		gpio = <&tlmm 89 0>;
+	};
+
+	vreg_3v3: vreg_3v3 {
+		compatible = "regulator-fixed";
+		regulator-name = "vreg_3v3";
+		enable-active-high;
+		gpio = <&tlmm 90 0>;
+	};
+
+	vreg_5v: vreg_5v {
+		compatible = "regulator-fixed";
+		regulator-name = "vreg_5v";
+		enable-active-high;
+		gpio = <&tlmm 25 0>;
+		regulator-always-on;
+		regulator-boot-on;
+	 };
+
+	hdmi_3v3: hdmi_3v3 {
+		compatible = "regulator-fixed";
+		regulator-name = "hdmi_3v3";
+		enable-active-high;
+		gpio = <&tlmm 12 0>;
+		vin-supply = <&vreg_3v3>;
+	};
+
+	hdmi_5v: hdmi_5v {
+		compatible = "regulator-fixed";
+		regulator-name = "hdmi_5v";
+		enable-active-high;
+		gpio = <&tlmm 12 0>;
+		vin-supply = <&vreg_5v>;
+	};
 };

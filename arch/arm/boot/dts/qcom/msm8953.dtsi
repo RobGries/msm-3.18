@@ -927,11 +927,19 @@
 			<&dma_blsp2 7 32 0x20000020 0x20>;
 		dma-names = "tx", "rx";
 
-		lt8912@48 {
-		    compatible = "lontium,lt8912";
-		    reg = <0x48>;
-		    qcom,hdmi-reset = <&tlmm 64 0x0>;
+		lt8912_dba@48 {
+			compatible = "lontium,lt8912_dba";
+			reg = <0x48>;
+			qcom,hdmi-reset = <&tlmm 64 0x0>;
+			vreg_1v8-supply = <&vreg_1v8>;
+			vreg_3v3-supply = <&hdmi_3v3>;
 		};
+
+		hdmi_edid@50 {
+			compatible = "hdmi,edid";
+			reg = <0x50>;
+		};
+
 	};
 
 	slim_msm: slim@c140000{

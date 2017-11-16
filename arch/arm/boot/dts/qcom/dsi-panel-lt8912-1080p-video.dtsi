@@ -65,5 +65,8 @@
 		qcom,mdss-dsi-reset-sequence = <1 20>, <0 2>, <1 20>;
 		qcom,mdss-dsi-post-init-delay = <1>;
 		qcom,mdss-dsi-force-clock-lane-hs;
+		qcom,mdss-dsi-always-on;
+		qcom,dba-panel;
+		qcom,bridge-name = "lt8912";
 	};
 };
