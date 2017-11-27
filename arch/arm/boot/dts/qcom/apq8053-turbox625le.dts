@@ -24,3 +24,17 @@
 	compatible = "qcom,apq8053-mtp", "qcom,apq8053", "qcom,mtp";
 	qcom,board-id= <8 0>;
 };
+
+&spi_1 {
+	ethernet@0 {
+		status = "okay";
+		compatible = "micrel,ks8851";
+		reg = <0>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <46 0>;
+		reset-gpios = <&tlmm 47 0>;
+		vdd_io = <&tlmm 95 0>;
+		vdd_reg = <&tlmm 48 0>;
+		spi-max-frequency = <25000000>;
+	};
+};

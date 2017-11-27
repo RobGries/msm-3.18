@@ -1127,12 +1127,12 @@
 		wsa-vi {
 			wsa_vi_on: wsa_vi_on {
 				mux {
-					pins = "gpio94", "gpio95";
+					pins = "gpio94";
 					function = "wsa_io";
 				};
 
 				config {
-					pins = "gpio94", "gpio95";
+					pins = "gpio94";
 					drive-strength = <8>; /* 8 MA */
 					bias-disable; /* NO pull */
 				};
@@ -1140,12 +1140,12 @@
 
 			wsa_vi_off: wsa_vi_off {
 				mux {
-					pins = "gpio94", "gpio95";
+					pins = "gpio94";
 					function = "wsa_io";
 				};
 
 				config {
-					pins = "gpio94", "gpio95";
+					pins = "gpio94";
 					drive-strength = <2>; /* 2 MA */
 					bias-pull-down;
 				};

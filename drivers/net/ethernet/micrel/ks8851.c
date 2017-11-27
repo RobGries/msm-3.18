@@ -23,7 +23,6 @@
 #include <linux/crc32.h>
 #include <linux/mii.h>
 #include <linux/eeprom_93cx6.h>
-#include <linux/regulator/consumer.h>
 
 #include <linux/spi/spi.h>
 #include <linux/gpio.h>
@@ -147,8 +146,8 @@ struct ks8851_net {
 	struct spi_transfer	spi_xfer2[2];
 
 	struct eeprom_93cx6	eeprom;
-	struct regulator	*vdd_reg;
-	struct regulator	*vdd_io;
+	int			vdd_reg;
+	int 			vdd_io;
 	int			gpio;
 };
 
@@ -1559,6 +1558,8 @@ static int ks8851_probe(struct spi_device *spi)
 	int ret;
 	unsigned cider;
 	int gpio;
+	int vdd_io;
+	int vdd_reg;
 	int iter;
 
 	pr_info("eth: spi KS8851 Probe\n");
@@ -1597,35 +1598,70 @@ static int ks8851_probe(struct spi_device *spi)
 		pr_debug("eth: spi KS8851 invalid gpio\n");
 	}
 
-	ks->vdd_io = devm_regulator_get(&spi->dev, "vdd-io");
-	if (IS_ERR(ks->vdd_io)) {
-		ret = PTR_ERR(ks->vdd_io);
-	}
-
-	ret = regulator_enable(ks->vdd_io);
-	if (ret) {
-		dev_err(&spi->dev, "regulator vdd_io enable fail: %d\n",
-			ret);
-	}
-
-	ks->vdd_reg = devm_regulator_get(&spi->dev, "vdd");
-	if (IS_ERR(ks->vdd_reg)) {
-		ret = PTR_ERR(ks->vdd_reg);
-	}
-
-	ret = regulator_enable(ks->vdd_reg);
-	if (ret) {
-		dev_err(&spi->dev, "regulator vdd enable fail: %d\n",
-			ret);
-	}
-
 	if (gpio_is_valid(gpio)) {
 		pr_debug("eth: spi reset GPIO set to 1\n");
-		ret = gpio_direction_output(gpio, 0x1);
-		pr_debug("ks8851:return value for reset is %d\n", ret);
+		usleep_range(10000, 11000);
+		gpio_direction_output(gpio, 0x1);
 	} else {
-		pr_debug("[%s:]eth: spi reset GPIO is invalid\n", __func__);
+		pr_err("[%s:%d] eth: spi reset GPIO is invalid\n",
+		       __func__, __LINE__);
 	}
+
+	vdd_io = of_get_named_gpio_flags(spi->dev.of_node, "vdd_io",
+			0, NULL);
+	if (vdd_io == -EPROBE_DEFER) {
+		pr_err("eth: KS8851 vdd_io get failed\n:%d\n", ks->vdd_io);
+		ret = vdd_io;
+		goto err_io;
+	}
+
+	ks->vdd_io = vdd_io;
+	if (gpio_is_valid(vdd_io)) {
+		ret = devm_gpio_request_one(&spi->dev, vdd_io,
+				GPIOF_DIR_OUT, "ks8851_vdd_io");
+		if (ret) {
+			dev_err(&spi->dev, "vdd_io request failed\n");
+			goto err_io;
+		}
+	} else {
+		pr_err("eth: spi KS8851 invalid vdd_io\n");
+	}
+
+	if (gpio_is_valid(vdd_io)) {
+		gpio_direction_output(vdd_io, 0x1);
+	} else {
+		pr_err("[%s:%d] eth: spi vdd_io failed\n",
+				__func__, __LINE__);
+	}
+
+	vdd_reg = of_get_named_gpio_flags(spi->dev.of_node, "vdd_reg",
+			0, NULL);
+	if (vdd_reg == -EPROBE_DEFER) {
+		pr_err("eth: KS8851 vdd_reg get failed\n:%d\n", ks->vdd_reg);
+		ret = vdd_reg;
+		goto err_reg;
+
+	}
+
+	ks->vdd_reg = vdd_reg;
+	if (gpio_is_valid(vdd_reg)) {
+		ret = devm_gpio_request_one(&spi->dev, vdd_reg,
+				GPIOF_DIR_OUT, "ks8851_vdd_reg");
+		if (ret) {
+			dev_err(&spi->dev, "vdd_io request failed\n");
+			goto err_reg;
+		}
+	} else {
+		pr_err("eth: spi KS8851 invalid vdd_reg\n");
+	}
+
+	if (gpio_is_valid(vdd_reg)) {
+		gpio_direction_output(vdd_reg, 0x1);
+	} else {
+		pr_err("[%s:%d] eth: spi vdd_reg failed\n",
+				__func__, __LINE__);
+	}
+
 	mutex_init(&ks->lock);
 	spin_lock_init(&ks->statelock);
 
@@ -1753,6 +1789,12 @@ err_irq:
 	if (gpio_is_valid(gpio))
 		gpio_set_value(gpio, 0);
 err_id:
+err_reg:
+	if (gpio_is_valid(ks->vdd_reg))
+		gpio_set_value(ks->vdd_reg, 0);
+err_io:
+	if (gpio_is_valid(ks->vdd_io))
+		gpio_set_value(ks->vdd_io, 0);
 err_gpio:
 	free_netdev(ndev);
 	return ret;
@@ -1769,8 +1811,10 @@ static int ks8851_remove(struct spi_device *spi)
 	free_irq(spi->irq, priv);
 	if (gpio_is_valid(priv->gpio))
 		gpio_set_value(priv->gpio, 0);
-	regulator_disable(priv->vdd_reg);
-	regulator_disable(priv->vdd_io);
+	if (gpio_is_valid(priv->vdd_reg))
+		gpio_set_value(priv->vdd_reg, 0);
+	if (gpio_is_valid(priv->vdd_io))
+		gpio_set_value(priv->vdd_io, 0);
 	free_netdev(priv->netdev);
 
 	return 0;
