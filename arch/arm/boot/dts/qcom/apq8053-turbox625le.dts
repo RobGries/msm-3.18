@@ -38,3 +38,13 @@
 		spi-max-frequency = <25000000>;
 	};
 };
+
+&i2c_2 {
+	sn3193@68 {
+		compatible = "si-en,sn3193";
+		reg = <0x68>;
+		si-en,sdb-gpio = <&tlmm 87 0x00>;
+		si-en,i2c-pull-up;
+		vcc_i2c-supply = <&pm8953_l5>;
+	};
+};
