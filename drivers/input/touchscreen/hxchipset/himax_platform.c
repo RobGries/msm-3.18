@@ -509,7 +509,7 @@ irqreturn_t himax_ts_thread(int irq, void *ptr)
 {
 	struct himax_ts_data *ts = ptr;
 
-	printk("%s: @test\n", __func__);
+//	printk("%s: @test\n", __func__);
 
 	if (ts->debug_log_level & BIT(2))
 	{
