@@ -4343,7 +4343,7 @@ static int smbchg_register_chg_led(struct smbchg_chip *chip)
 {
 	int rc;
 
-	chip->led_cdev.name = "red";
+	chip->led_cdev.name = "charge_led";
 	chip->led_cdev.brightness_set = smbchg_chg_led_brightness_set;
 	chip->led_cdev.brightness_get = smbchg_chg_led_brightness_get;
 

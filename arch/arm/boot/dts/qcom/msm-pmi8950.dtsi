@@ -221,6 +221,8 @@
 			qcom,aicl-rerun-period-s = <180>;
 			qcom,autoadjust-vfloat;
 			qcom,otg-pinctrl;
+			qcom,chg-led-support;
+			qcom,chg-led-sw-controls;
 
 			qcom,chgr@1000 {
 				reg = <0x1000 0x100>;
