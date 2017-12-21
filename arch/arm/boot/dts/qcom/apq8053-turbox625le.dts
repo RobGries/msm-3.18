@@ -25,6 +25,16 @@
 	qcom,board-id= <8 0>;
 };
 
+&soc {
+	gpio_ctrl {
+		compatible = "gpio_ctrl";
+		fan {
+			label = "fan";
+			gpios = <&tlmm 13 0>;
+		};
+	};
+};
+
 &spi_1 {
 	ethernet@0 {
 		status = "okay";
