@@ -1541,12 +1541,42 @@ static int lontium_i2c_remove(struct i2c_client *client)
 	return 0;
 }
 
+static int lontium_i2c_suspend(struct device *dev)
+{
+	int ret;
+	struct lt8912_data *data = dev_get_drvdata(dev);
+	cancel_delayed_work_sync(&data->hotplug_work);
+	ret = lt8912_set_power(data, 0);
+	if(ret)
+		pr_err("%s: set power off failed\n", __func__);
+	return ret;
+
+	return 0;
+}
+
+static int lontium_i2c_resume(struct device *dev)
+{
+	int ret;
+	struct lt8912_data *data = dev_get_drvdata(dev);
+	ret = lt8912_set_power(data, 1);
+	if(ret)
+		pr_err("%s: set power on failed\n", __func__);
+	return ret;
+	return 0;
+}
+
+static const struct dev_pm_ops lontium_i2c_pm_ops = {
+	.suspend = lontium_i2c_suspend,
+	.resume = lontium_i2c_resume,
+};
+
 static struct i2c_driver lontium_i2c_driver = {
 
 	.driver = {
 		.name = "lontium_i2c",
 		.owner = THIS_MODULE,
 		.of_match_table = of_rk_lt8912_match,
+		.pm = &lontium_i2c_pm_ops,
 	},
 	.probe = lontium_i2c_probe,
 	.remove = lontium_i2c_remove,
