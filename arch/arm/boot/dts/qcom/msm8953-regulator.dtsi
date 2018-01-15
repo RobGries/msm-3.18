@@ -966,4 +966,17 @@
 		gpio = <&tlmm 12 0>;
 		vin-supply = <&vreg_5v>;
 	};
+		spi_eth_1v8: spi_eth_1v8 {
+		compatible = "regulator-fixed";
+		regulator-name = "ethernet_1v8";
+		gpio = <&tlmm 48 0>;
+		enable-active-high;
+	};
+
+		spi_eth_3v3: spi_eth_3v3 {
+		compatible = "regulator-fixed";
+		regulator-name = "ethernet_3v3";
+		gpio = <&tlmm 95 0>;
+		enable-active-high;
+    };
 };
