@@ -932,14 +932,18 @@
 		compatible = "regulator-fixed";
 		regulator-name = "vreg_1v8";
 		enable-active-high;
-		gpio = <&tlmm 89 0>;
+		gpio = <&tlmm 89 1>;
+		regulator-always-on;
+		regulator-boot-on;
 	};
 
 	vreg_3v3: vreg_3v3 {
 		compatible = "regulator-fixed";
 		regulator-name = "vreg_3v3";
 		enable-active-high;
-		gpio = <&tlmm 90 0>;
+		gpio = <&tlmm 90 1>;
+		regulator-always-on;
+		regulator-boot-on;
 	};
 
 	vreg_5v: vreg_5v {
