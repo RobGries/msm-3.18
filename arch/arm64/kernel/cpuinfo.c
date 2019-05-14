@@ -151,6 +151,7 @@ static int c_show(struct seq_file *m, void *v)
 		seq_printf(m, "CPU part\t: 0x%03x\n", MIDR_PARTNUM(midr));
 		seq_printf(m, "CPU revision\t: %d\n\n", MIDR_REVISION(midr));
 	}
+        seq_printf(m, "Hardware\t: Qualcomm Technologies, Inc APQ8053\n");
 
 	return 0;
 }
