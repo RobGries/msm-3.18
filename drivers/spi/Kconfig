@@ -31,6 +31,7 @@ if SPI
 config SPI_DEBUG
 	boolean "Debug support for SPI drivers"
 	depends on DEBUG_KERNEL
+	default y
 	help
 	  Say "yes" to enable debug messaging (like dev_dbg and pr_debug),
 	  sysfs, and debugfs support in SPI controller and protocol drivers.
@@ -627,6 +628,7 @@ comment "SPI Protocol Masters"
 
 config SPI_SPIDEV
 	tristate "User mode SPI device driver support"
+	default y
 	help
 	  This supports user mode SPI protocol drivers.
 
