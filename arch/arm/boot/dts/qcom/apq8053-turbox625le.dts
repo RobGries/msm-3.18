@@ -52,6 +52,10 @@
 };
 
 &spi_7 {
+        #address-cells = <1>;
+        #size-cells = <0>;
+        pinctrl-0 = <&spi7_default>;
+        pinctrl-1 = <&spi7_sleep>;
 	status = "okay";
 	
 	spidev@0{
