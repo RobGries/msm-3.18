@@ -192,4 +192,11 @@ config VCNL4000
 	 To compile this driver as a module, choose M here: the
 	 module will be called vcnl4000.
 
+config OPT3001
+	tristate "Texas Instruments OPT3001 Light Sensor`"
+	depends on IIO && I2C
+	help
+	 Provides support for the Texas Instruments OPT3001 device.
+	 Access ALS data via iio, sysfs.
+
 endmenu

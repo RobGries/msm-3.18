@@ -878,7 +878,6 @@
 	};
 
 	i2c_5: i2c@7af5000 { /* BLSP2 QUP1 */
-		status = "disabled";
 		compatible = "qcom,i2c-msm-v2";
 		#address-cells = <1>;
 		#size-cells = <0>;

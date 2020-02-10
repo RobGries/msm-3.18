@@ -76,6 +76,14 @@
 	};
 };
 
+&i2c_5 {
+	ti_opt3001: opt3001@44 {
+		compatible = "ti,opt3001";
+		reg = <0x44>;
+	};
+};
+
+
 &mdss_dsi0 {
 	qcom,platform-bklight-en-gpio = <&pmi8950_gpios 1 0>; /* use pmi8952 gpio1 */
 };
