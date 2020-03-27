@@ -35,6 +35,18 @@
 			
 	};
 
+	/*
+	leds {
+        	compatible = "gpio-leds";
+		pinctrl-0 = <&led_pins>;
+		pinctrl-names = "default";
+		
+		led0 {
+                	gpios = <&tlmm 139 0>;
+                	default-state = "on";
+        	};
+	};
+	*/
 };
 
 &spi_1 {
@@ -52,11 +64,6 @@
 };
 
 &spi_7 {
-        #address-cells = <1>;
-        #size-cells = <0>;
-        pinctrl-0 = <&spi7_default>;
-        pinctrl-1 = <&spi7_sleep>;
-	status = "okay";
 	
 	spidev@0{
 		status = "okay";                
@@ -64,6 +71,14 @@
 		reg = <0>;
 		spi-max-frequency = <25000000>;
 	};
+
+        spidev@1{
+                status = "okay";
+                compatible= "linux,spidev";
+                reg = <1>;
+                spi-max-frequency = <25000000>;
+        };
+
 };
 
 &i2c_2 {
@@ -80,6 +95,11 @@
 	ti_opt3001: opt3001@44 {
 		compatible = "ti,opt3001";
 		reg = <0x44>;
+	};
+	
+	hdc100x@40 {
+		compatible = "ti,hdc1080";
+		reg = <0x40>;
 	};
 };
 

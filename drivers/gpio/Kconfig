@@ -89,6 +89,13 @@ config GPIO_SYSFS
 config GPIO_GENERIC
 	tristate
 
+config GPIO_INT_TEST
+        tristate "interrupt test driver"
+        select GPIO_INT_TEST
+        help
+          Say yes here to support basic platform_device memory-mapped GPIO controllers.
+
+
 # put drivers in the right section, in alphabetical order
 
 config GPIO_DA9052
