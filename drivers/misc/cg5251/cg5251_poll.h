@@ -4,7 +4,7 @@
 #ifndef __CG5251_POLL_H
 #define __CG5251_POLL_H
 
-#define CG_DBG
+//#define CG_DBG
 
 #define CG_KOBJ_ATTR_RO(_name) static struct kobj_attribute _name##_kobj_attribute = __ATTR_RO(_name)
 #ifdef CG_DBG
