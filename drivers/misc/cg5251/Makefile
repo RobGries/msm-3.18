@@ -1,0 +1,1 @@
+obj-$(CONFIG_CG5251_POLLING_MODE) += cg5251_poll.o

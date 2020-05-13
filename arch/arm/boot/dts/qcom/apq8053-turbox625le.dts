@@ -92,9 +92,9 @@
 };
 
 &i2c_5 {
-	ti_opt3001: opt3001@44 {
-		compatible = "ti,opt3001";
-		reg = <0x44>;
+	cg_cg5251tc: cg5251@0e {
+		compatible = "cg,cg5251";
+		reg = <0x0e>;
 	};
 	
 	hdc100x@40 {
