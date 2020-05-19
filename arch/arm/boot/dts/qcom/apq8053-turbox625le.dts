@@ -92,7 +92,7 @@
 };
 
 &i2c_5 {
-	cg5251: cg_als_i2c@0e {
+	cg_als_i2c@0e {
 		compatible = "cg_als_i2c";
 		reg = <0x0e>;
 	};

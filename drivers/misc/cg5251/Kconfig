@@ -1,8 +1,6 @@
 menu "Chipgoal ALS support (I2C)"
 
 config CG5251_POLLING_MODE
-	bool "Chipgoal CG5251 polling mode"
+	tristate "Chipgoal CG5251 polling mode"
 	depends on I2C && SYSFS
-	default y
-
 endmenu
