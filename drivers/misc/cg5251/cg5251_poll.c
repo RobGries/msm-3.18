@@ -11,7 +11,6 @@
 #include <linux/platform_device.h>
 #include <linux/slab.h>
 #include <linux/sysfs.h>
-
 #include "cg5251_poll.h"
 
 #define DRIVER_VERSION "1.0"
@@ -413,16 +412,20 @@ static int i2c_remove(struct i2c_client *psclient)
 }
 
 static const struct i2c_device_id g_si2cdeviceid[] = {
-    {DEVICE_NAME, 0},
+    {"cg5251", 0},
     { }
 };
 
-MODULE_DEVICE_TABLE(i2c,
-                    g_si2cdeviceid);
+MODULE_DEVICE_TABLE(i2c, g_si2cdeviceid);
+static const struct of_device_id cg5251_of_match[] = {
+    { .compatible = "cg,cg5251" },
+    { }
+};
 
 static struct i2c_driver g_si2cdriver = {
     .driver = {
         .name = DRIVER_NAME,
+        .of_match_table = of_match_ptr(cg5251_of_match),
     },
     .probe = i2c_probe,
     .remove = i2c_remove,
