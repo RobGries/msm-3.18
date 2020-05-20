@@ -298,8 +298,8 @@ static int i2c_probe(      struct i2c_client    *psclient,
     ret = i2c_check_functionality(psclient->adapter,
                                   I2C_FUNC_SMBUS_BYTE_DATA);
 
-    if(0 != ret) {
-        printk(KERN_ERR "%s: " "i2c_check_functionality() != %d\n",
+    if(1 != ret) {
+        printk(KERN_ERR "%s: " "i2c_check_functionality() == %d\n",
                DEVICE_NAME,
                ret);
 
