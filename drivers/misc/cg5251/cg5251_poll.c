@@ -34,28 +34,27 @@ static struct platform_device *g_psplatformdevice = NULL;
 static int32_t get_als_lux(struct device_data *psdevicedata)
 {
     uint8_t aui8data[2] = {0};
-    //uint8_t i = 0;
-    //uint8_t j = 33;
+    uint8_t i = 0;
+    uint8_t j = 33;
     int32_t si32ADATA = 0;
-    int i;
+    //int i;
 
-    for (i=0; i < ARRAY_SIZE(aui8data); i++)
+/*    for (i=0; i < ARRAY_SIZE(aui8data); i++)
     {
         aui8data[i] = i2c_smbus_read_byte_data(psdevicedata->psclient, i);
-    }
+    }*/
 
-/*    for(; i < ARRAY_SIZE(aui8data); i ++, j ++) 
+    for(; i < ARRAY_SIZE(aui8data); i ++, j ++) 
     {
         aui8data[i] = i2c_smbus_read_byte_data(psdevicedata->psclient, j);
         printk("[*%s-DEBUG*] Original version -- aui8data[%d]=%hhu", DEVICE_NAME, i, aui8data[i]);
     }
-*/
+
     si32ADATA = MAKEWORD(aui8data[0], aui8data[1]);
 
-    printk("[*%s-DEBUG*] Rob's version -- aui8data[0]=%hhu", DEVICE_NAME, aui8data[0]);
-    printk("[*%s-DEBUG*] Rob's version -- aui8data[1]=%hhu", DEVICE_NAME, aui8data[1]);
-    //printk("[*%s-DEBUG*] Rob's version -- aui8data[2]=%hhu", DEVICE_NAME, aui8data[2]);
-    printk("[*%s-DEBUG*] si32ADATA=%hhu", DEVICE_NAME, i, aui8data[i]);
+    printk("[*%s-DEBUG*] aui8data[0]=%hhu\n", DEVICE_NAME, aui8data[0]);
+    printk("[*%s-DEBUG*] aui8data[1]=%hhu\n", DEVICE_NAME, aui8data[1]);
+    printk("[*%s-DEBUG*] si32ADATA=%hhu\n", DEVICE_NAME, i, aui8data[i]);
 
     return ((int32_t) ((si32ADATA * 148 * psdevicedata->sals.ui32devparam) / psdevicedata->sals.sreg.ui8TIG_SEL / ALS_SCL));
 }
@@ -85,7 +84,7 @@ static int als_polling(void *parg)
 
     init_completion(&psdevicedata->scompletion);
 
-    while(1) {
+    //while(1) {
         mutex_lock(&psdevicedata->smutexsync);
 
         delay = psdevicedata->sals.ui32delay;
@@ -106,7 +105,7 @@ static int als_polling(void *parg)
         mutex_unlock(&psdevicedata->smutexsync);
 
         msleep(delay);
-    };
+    //};
 
     mutex_unlock(&psdevicedata->smutexsync);
 
