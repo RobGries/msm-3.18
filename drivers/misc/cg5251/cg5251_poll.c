@@ -54,7 +54,7 @@ static int32_t get_als_lux(struct device_data *psdevicedata)
 
     printk("[*%s-DEBUG*] aui8data[0]=%hhu\n", DEVICE_NAME, aui8data[0]);
     printk("[*%s-DEBUG*] aui8data[1]=%hhu\n", DEVICE_NAME, aui8data[1]);
-    printk("[*%s-DEBUG*] si32ADATA=%hhu\n", DEVICE_NAME, i, aui8data[i]);
+    printk("[*%s-DEBUG*] si32ADATA=%hhu\n", DEVICE_NAME, aui8data[i]);
 
     return ((int32_t) ((si32ADATA * 148 * psdevicedata->sals.ui32devparam) / psdevicedata->sals.sreg.ui8TIG_SEL / ALS_SCL));
 }
@@ -98,9 +98,9 @@ static int als_polling(void *parg)
                          lux);
         }
 
-        if(0 == psdevicedata->ui8ThreadRunning) {
+/*        if(0 == psdevicedata->ui8ThreadRunning) {
             break;
-        }
+        }*/
 
         mutex_unlock(&psdevicedata->smutexsync);
 
