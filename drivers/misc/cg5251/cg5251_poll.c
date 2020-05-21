@@ -37,6 +37,8 @@ static int32_t get_als_lux(struct device_data *psdevicedata)
     uint8_t i = 0;
     uint8_t j = 33;
     int32_t si32ADATA = 0;
+    int32_t result;
+
     //int i;
 
 /*    for (i=0; i < ARRAY_SIZE(aui8data); i++)
@@ -54,9 +56,13 @@ static int32_t get_als_lux(struct device_data *psdevicedata)
 
     printk("[*%s-DEBUG*] aui8data[0]=%hhu\n", DEVICE_NAME, aui8data[0]);
     printk("[*%s-DEBUG*] aui8data[1]=%hhu\n", DEVICE_NAME, aui8data[1]);
-    printk("[*%s-DEBUG*] si32ADATA=%hhu\n", DEVICE_NAME, aui8data[i]);
+    printk("[*%s-DEBUG*] si32ADATA=%zu\n\n", DEVICE_NAME, si32ADATA);
 
-    return ((int32_t) ((si32ADATA * 148 * psdevicedata->sals.ui32devparam) / psdevicedata->sals.sreg.ui8TIG_SEL / ALS_SCL));
+    result = ((si32ADATA * 148 * psdevicedata->sals.ui32devparam) / psdevicedata->sals.sreg.ui8TIG_SEL / ALS_SCL);
+
+    printk("[*%s-DEBUG] LUX Value = %zu\n", DEVICE_NAME, result);
+
+    return result;
 }
 
 inline void report_event(struct input_dev *dev,
@@ -84,7 +90,7 @@ static int als_polling(void *parg)
 
     init_completion(&psdevicedata->scompletion);
 
-    //while(1) {
+    while(1) {
         mutex_lock(&psdevicedata->smutexsync);
 
         delay = psdevicedata->sals.ui32delay;
@@ -98,14 +104,14 @@ static int als_polling(void *parg)
                          lux);
         }
 
-/*        if(0 == psdevicedata->ui8ThreadRunning) {
+        if(0 == psdevicedata->ui8ThreadRunning) {
             break;
-        }*/
+        }
 
         mutex_unlock(&psdevicedata->smutexsync);
 
         msleep(delay);
-    //};
+    };
 
     mutex_unlock(&psdevicedata->smutexsync);
 
