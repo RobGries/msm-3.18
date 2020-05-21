@@ -33,12 +33,20 @@ static int32_t get_als_lux(struct device_data *psdevicedata)
     uint8_t j = 33;
     int32_t si32ADATA = 0;
 
-    for(; i < ARRAY_SIZE(aui8data); i ++, j ++) {
-        aui8data[i] = i2c_smbus_read_byte_data(psdevicedata->psclient,
-                                               j);
+/*    for (int i = 0; i < ARRAY_SIZE(aui8data); i++)
+    {
+        aui8data[i] = i2c_smbus_read_byte_data(psdevicedata->psclient, i);
+        printk("[*%s-DEBUG*] Rob's version -- aui8data[%d]=%hhu", DEVICE_NAME, i, aui8data[i]);
+    }
+*/
+    for(; i < ARRAY_SIZE(aui8data); i ++, j ++) 
+    {
+        aui8data[i] = i2c_smbus_read_byte_data(psdevicedata->psclient, j);
+        printk("[*%s-DEBUG*] Original version -- aui8data[%d]=%hhu", DEVICE_NAME, i, aui8data[i]);
     }
 
     si32ADATA = MAKEWORD(aui8data[0], aui8data[1]);
+    printk("[*%s-DEBUG*] si32ADATA=%hhu", DEVICE_NAME, i, aui8data[i]);
 
     return ((int32_t) ((si32ADATA * 148 * psdevicedata->sals.ui32devparam) / psdevicedata->sals.sreg.ui8TIG_SEL / ALS_SCL));
 }
