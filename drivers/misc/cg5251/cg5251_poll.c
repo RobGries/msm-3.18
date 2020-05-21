@@ -37,8 +37,9 @@ static int32_t get_als_lux(struct device_data *psdevicedata)
     //uint8_t i = 0;
     //uint8_t j = 33;
     int32_t si32ADATA = 0;
+    int i;
 
-    for (int i = 0; i < ARRAY_SIZE(aui8data); i++)
+    for (i=0; i < ARRAY_SIZE(aui8data); i++)
     {
         aui8data[i] = i2c_smbus_read_byte_data(psdevicedata->psclient, i);
     }
