@@ -49,7 +49,7 @@ static int32_t get_als_lux(struct device_data *psdevicedata)
     for(; i < ARRAY_SIZE(aui8data); i ++, j ++) 
     {
         aui8data[i] = i2c_smbus_read_byte_data(psdevicedata->psclient, j);
-        printk("[*%s-DEBUG*] Original version -- aui8data[%d]=%hhu", DEVICE_NAME, i, aui8data[i]);
+        //printk("[*%s-DEBUG*] Original version -- aui8data[%d]=%hhu", DEVICE_NAME, i, aui8data[i]);
     }
 
     si32ADATA = MAKEWORD(aui8data[0], aui8data[1]);
@@ -62,7 +62,7 @@ static int32_t get_als_lux(struct device_data *psdevicedata)
 
     g_psdevicedata->sals.ui32lux = result;
 
-    printk("[*%s-DEBUG] LUX Value = %zu\n", DEVICE_NAME, result);
+    //printk("[*%s-DEBUG] LUX Value = %zu\n", DEVICE_NAME, result);
 
     return result;
 }
@@ -73,6 +73,8 @@ inline void report_event(struct input_dev *dev,
     input_report_abs(dev,
                      ABS_MISC,
                      report_value);
+
+    printk("[*%s-DEBUG*] report_value=%zu\n\n", DEVICE_NAME, report_value);
 
     input_sync(dev);
 
@@ -359,8 +361,8 @@ static int i2c_probe(      struct i2c_client    *psclient,
     mutex_init(&psdevicedata->smutexsync);
 
     psdevicedata->psworker = NULL;
-/*    psdevicedata->scompletion
-*/    psdevicedata->ui8ThreadRunning = 0;
+    psdevicedata->scompletion
+    psdevicedata->ui8ThreadRunning = 0;
     psdevicedata->sals.sreg.ui8TIG_SEL = 0;
     psdevicedata->sals.sreg.ui8AGAIN = 0;
     psdevicedata->sals.sreg.ui8EGAIN = 0;
@@ -410,16 +412,16 @@ CLEANUP:
 static int i2c_remove(struct i2c_client *psclient)
 {
     struct device_data *psdevicedata = i2c_get_clientdata(psclient);
-/*
+
     int i = 0;
-*/
+
     platform_device_put(g_psplatformdevice);
-/*
+
     for(i = 0; NULL != g_psattributes[i]; i ++) {
         sysfs_remove_file(&g_psplatformdevice->dev.kobj,
                           g_psattributes[i]);
     }
-*/
+
     if(NULL != psdevicedata) {
         mutex_destroy(&psdevicedata->smutexsync);
 
