@@ -54,11 +54,13 @@ static int32_t get_als_lux(struct device_data *psdevicedata)
 
     si32ADATA = MAKEWORD(aui8data[0], aui8data[1]);
 
-    printk("[*%s-DEBUG*] aui8data[0]=%hhu\n", DEVICE_NAME, aui8data[0]);
-    printk("[*%s-DEBUG*] aui8data[1]=%hhu\n", DEVICE_NAME, aui8data[1]);
-    printk("[*%s-DEBUG*] si32ADATA=%zu\n\n", DEVICE_NAME, si32ADATA);
+    //printk("[*%s-DEBUG*] aui8data[0]=%hhu\n", DEVICE_NAME, aui8data[0]);
+    //printk("[*%s-DEBUG*] aui8data[1]=%hhu\n", DEVICE_NAME, aui8data[1]);
+    //printk("[*%s-DEBUG*] si32ADATA=%zu\n\n", DEVICE_NAME, si32ADATA);
 
     result = ((si32ADATA * 148 * psdevicedata->sals.ui32devparam) / psdevicedata->sals.sreg.ui8TIG_SEL / ALS_SCL);
+
+    g_psdevicedata->sals.ui32lux = result;
 
     printk("[*%s-DEBUG] LUX Value = %zu\n", DEVICE_NAME, result);
 
