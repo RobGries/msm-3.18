@@ -101,12 +101,12 @@ static int als_polling(void *parg)
 
         lux = get_als_lux(psdevicedata);
 
-        if(ALS_LUX_THD < unlikely(abs(lux - psdevicedata->sals.ui32lux))) {
+        report_event(psdevicedata->sinput_dev, lux);
+
+/*        if(ALS_LUX_THD < unlikely(abs(lux - psdevicedata->sals.ui32lux))) {
             psdevicedata->sals.ui32lux = lux;
 
-            report_event(psdevicedata->sinput_dev,
-                         lux);
-        }
+        }*/
 
         if(0 == psdevicedata->ui8ThreadRunning) {
             break;
