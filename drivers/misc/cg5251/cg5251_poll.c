@@ -361,7 +361,7 @@ static int i2c_probe(      struct i2c_client    *psclient,
     mutex_init(&psdevicedata->smutexsync);
 
     psdevicedata->psworker = NULL;
-    psdevicedata->scompletion
+    psdevicedata->scompletion = 0;
     psdevicedata->ui8ThreadRunning = 0;
     psdevicedata->sals.sreg.ui8TIG_SEL = 0;
     psdevicedata->sals.sreg.ui8AGAIN = 0;
