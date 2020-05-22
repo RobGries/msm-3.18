@@ -21,7 +21,12 @@
 #define ALS_LUX_MAX 1000
 #define ALS_LUX_THD 20
 #define ALS_DLY_MIN 400
-#define ALS_SCL 	100000
+#define ALS_SCL     100000
+
+/*#define AGAIN_REG 0x05
+#define EGAIN_REG 0x08
+#define ADATAL_REG 0x21
+#define ADATAH_REG 0x22*/
 
 struct device_data *g_psdevicedata = NULL;
 static struct platform_device *g_psplatformdevice = NULL;
@@ -32,15 +37,20 @@ static int32_t get_als_lux(struct device_data *psdevicedata)
     uint8_t i = 0;
     uint8_t j = 33;
     int32_t si32ADATA = 0;
+    int32_t result;
 
-    for(; i < ARRAY_SIZE(aui8data); i ++, j ++) {
-        aui8data[i] = i2c_smbus_read_byte_data(psdevicedata->psclient,
-                                               j);
+    for(; i < ARRAY_SIZE(aui8data); i ++, j ++) 
+    {
+        aui8data[i] = i2c_smbus_read_byte_data(psdevicedata->psclient, j);
     }
 
     si32ADATA = MAKEWORD(aui8data[0], aui8data[1]);
 
-    return ((int32_t) ((si32ADATA * 148 * psdevicedata->sals.ui32devparam) / psdevicedata->sals.sreg.ui8TIG_SEL / ALS_SCL));
+    result = ((si32ADATA * 148 * psdevicedata->sals.ui32devparam) / psdevicedata->sals.sreg.ui8TIG_SEL / ALS_SCL);
+
+    g_psdevicedata->sals.ui32lux = result;
+
+    return result;
 }
 
 inline void report_event(struct input_dev *dev,
@@ -49,6 +59,7 @@ inline void report_event(struct input_dev *dev,
     input_report_abs(dev,
                      ABS_MISC,
                      report_value);
+
 
     input_sync(dev);
 
@@ -75,12 +86,7 @@ static int als_polling(void *parg)
 
         lux = get_als_lux(psdevicedata);
 
-        if(ALS_LUX_THD < unlikely(abs(lux - psdevicedata->sals.ui32lux))) {
-            psdevicedata->sals.ui32lux = lux;
-
-            report_event(psdevicedata->sinput_dev,
-                         lux);
-        }
+        report_event(psdevicedata->sinput_dev, lux);
 
         if(0 == psdevicedata->ui8ThreadRunning) {
             break;
@@ -149,38 +155,38 @@ static int32_t init_all_setting(struct device_data *psdevicedata)
     psdevicedata->sals.sreg.ui8AGAIN = (aui8data[1] & 0x03);
     psdevicedata->sals.sreg.ui8EGAIN = (aui8data[4] & 0x01);
 
-	if(0 == psdevicedata->sals.sreg.ui8AGAIN) {
-		if(0 == psdevicedata->sals.sreg.ui8EGAIN) {
-			psdevicedata->sals.ui32devparam = 512000;
-		}
-		else {
-			psdevicedata->sals.ui32devparam = 32000;
-		}
-	}
-	else if(1 == psdevicedata->sals.sreg.ui8AGAIN) {
-		if(0 == psdevicedata->sals.sreg.ui8EGAIN) {
-			
-		}
-		else {
-			psdevicedata->sals.ui32devparam = 8000;
-		}
-	}
-	else if(2 == psdevicedata->sals.sreg.ui8AGAIN) {
-		if(0 == psdevicedata->sals.sreg.ui8EGAIN) {
-			
-		}
-		else {
-			psdevicedata->sals.ui32devparam = 2000;
-		}
-	}
-	else {
-		if(0 == psdevicedata->sals.sreg.ui8EGAIN) {
-			
-		}
-		else {
-			psdevicedata->sals.ui32devparam = 526;
-		}
-	}
+    if(0 == psdevicedata->sals.sreg.ui8AGAIN) {
+        if(0 == psdevicedata->sals.sreg.ui8EGAIN) {
+            psdevicedata->sals.ui32devparam = 512000;
+        }
+        else {
+            psdevicedata->sals.ui32devparam = 32000;
+        }
+    }
+    else if(1 == psdevicedata->sals.sreg.ui8AGAIN) {
+        if(0 == psdevicedata->sals.sreg.ui8EGAIN) {
+            
+        }
+        else {
+            psdevicedata->sals.ui32devparam = 8000;
+        }
+    }
+    else if(2 == psdevicedata->sals.sreg.ui8AGAIN) {
+        if(0 == psdevicedata->sals.sreg.ui8EGAIN) {
+            
+        }
+        else {
+            psdevicedata->sals.ui32devparam = 2000;
+        }
+    }
+    else {
+        if(0 == psdevicedata->sals.sreg.ui8EGAIN) {
+            
+        }
+        else {
+            psdevicedata->sals.ui32devparam = 526;
+        }
+    }
 
     enable(psdevicedata,
            0);
@@ -335,8 +341,8 @@ static int i2c_probe(      struct i2c_client    *psclient,
     mutex_init(&psdevicedata->smutexsync);
 
     psdevicedata->psworker = NULL;
-/*    psdevicedata->scompletion
-*/    psdevicedata->ui8ThreadRunning = 0;
+    psdevicedata->scompletion;
+    psdevicedata->ui8ThreadRunning = 0;
     psdevicedata->sals.sreg.ui8TIG_SEL = 0;
     psdevicedata->sals.sreg.ui8AGAIN = 0;
     psdevicedata->sals.sreg.ui8EGAIN = 0;
@@ -386,16 +392,16 @@ CLEANUP:
 static int i2c_remove(struct i2c_client *psclient)
 {
     struct device_data *psdevicedata = i2c_get_clientdata(psclient);
-/*
+
     int i = 0;
-*/
+
     platform_device_put(g_psplatformdevice);
-/*
+
     for(i = 0; NULL != g_psattributes[i]; i ++) {
         sysfs_remove_file(&g_psplatformdevice->dev.kobj,
                           g_psattributes[i]);
     }
-*/
+
     if(NULL != psdevicedata) {
         mutex_destroy(&psdevicedata->smutexsync);
 
