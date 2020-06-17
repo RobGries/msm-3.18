@@ -1,3 +1,8 @@
+config LEDS_KTD2026
+	bool "LED KTD2026 Support"
+	help
+	  This option provides the support of LED KTD2026
+
 config LEDS_GPIO_REGISTER
 	bool
 	help

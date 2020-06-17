@@ -66,11 +66,18 @@
 };
 
 &i2c_2 {
+	status = "ok";
 	sn3193@68 {
 		compatible = "si-en,sn3193";
 		reg = <0x68>;
 		si-en,sdb-gpio = <&tlmm 87 0x00>;
 		si-en,i2c-pull-up;
+		vcc_i2c-supply = <&pm8953_l5>;
+	};
+
+	ktd2026@30 {
+		compatible = "leds,ktd2026";
+		reg = <0x30>;
 		vcc_i2c-supply = <&pm8953_l5>;
 	};
 };
