@@ -344,6 +344,7 @@ struct msm8952_codec {
 struct msm8952_asoc_mach_data {
 	int ext_pa;
 	int us_euro_gpio;
+	int wcd_eldo_en;
 	struct delayed_work hs_detect_dwork;
 	struct snd_soc_codec *codec;
 	struct msm8952_codec msm8952_codec_fn;
@@ -3346,6 +3347,8 @@ static const struct snd_soc_dapm_widget msm8952_tasha_dapm_widgets[] = {
 	SND_SOC_DAPM_MIC("Secondary Mic", NULL),
 	SND_SOC_DAPM_MIC("ANCRight Headset Mic", NULL),
 	SND_SOC_DAPM_MIC("ANCLeft Headset Mic", NULL),
+	SND_SOC_DAPM_MIC("Analog Mic2", NULL),
+	SND_SOC_DAPM_MIC("Analog Mic3", NULL),
 	SND_SOC_DAPM_MIC("Analog Mic4", NULL),
 	SND_SOC_DAPM_MIC("Analog Mic6", NULL),
 	SND_SOC_DAPM_MIC("Analog Mic7", NULL),
@@ -3455,6 +3458,8 @@ int msm_audrx_init(struct snd_soc_pcm_runtime *rtd)
 	snd_soc_dapm_ignore_suspend(dapm, "Digital Mic3");
 	snd_soc_dapm_ignore_suspend(dapm, "Digital Mic4");
 	snd_soc_dapm_ignore_suspend(dapm, "Digital Mic5");
+	snd_soc_dapm_ignore_suspend(dapm, "Analog Mic2");
+	snd_soc_dapm_ignore_suspend(dapm, "Analog Mic3");
 	snd_soc_dapm_ignore_suspend(dapm, "Analog Mic4");
 	snd_soc_dapm_ignore_suspend(dapm, "Analog Mic6");
 	snd_soc_dapm_ignore_suspend(dapm, "Analog Mic7");
@@ -3895,6 +3900,17 @@ static int msm8952_asoc_machine_probe(struct platform_device *pdev)
 			goto err;
 		}
 	}
+
+	pdata->wcd_eldo_en = of_get_named_gpio(pdev->dev.of_node,
+			"qcom,cdc-wcd-eldo-en", 0);
+	if (gpio_is_valid(pdata->wcd_eldo_en)) {
+		ret = gpio_request(pdata->wcd_eldo_en, "WCD_EN_GPIO");
+		if (ret)
+			dev_err(&pdev->dev, "%s: Failed to request gpio %d\n",
+					__func__, pdata->wcd_eldo_en);
+	}
+	if (gpio_is_valid(pdata->wcd_eldo_en))
+		gpio_direction_output(pdata->wcd_eldo_en, 1);
 
 	pdev->id = 0;
 
